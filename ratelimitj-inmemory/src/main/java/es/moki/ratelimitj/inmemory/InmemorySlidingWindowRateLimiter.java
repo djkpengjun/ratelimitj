@@ -3,7 +3,7 @@ package es.moki.ratelimitj.inmemory;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
-import es.moki.ratelimitj.api.LimitRule;
+import es.moki.ratelimitj.core.api.LimitRule;
 import es.moki.ratelimitj.core.time.TimeSupplier;
 
 import javax.annotation.concurrent.ThreadSafe;

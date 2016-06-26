@@ -3,7 +3,6 @@ description 'RateLimitJ Hazelcast'
 dependencies {
 
     compile(
-            project(':ratelimitj-api'),
             project(':ratelimitj-core'),
             'com.github.ben-manes.caffeine:caffeine:2.3.1' ,
             'com.google.code.findbugs:jsr305:3.0.1'

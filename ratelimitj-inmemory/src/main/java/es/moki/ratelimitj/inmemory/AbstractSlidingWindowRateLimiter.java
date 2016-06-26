@@ -1,7 +1,7 @@
 package es.moki.ratelimitj.inmemory;
 
-import es.moki.ratelimitj.api.LimitRule;
-import es.moki.ratelimitj.api.RateLimiter;
+import es.moki.ratelimitj.core.api.LimitRule;
+import es.moki.ratelimitj.core.api.RateLimiter;
 import es.moki.ratelimitj.core.time.SystemTimeSupplier;
 import es.moki.ratelimitj.core.time.TimeSupplier;
 import org.slf4j.Logger;
