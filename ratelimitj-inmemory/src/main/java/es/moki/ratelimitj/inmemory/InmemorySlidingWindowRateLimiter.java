@@ -1,17 +1,50 @@
 package es.moki.ratelimitj.inmemory;
 
-import es.moki.ratelimitj.api.RateLimiter;
+
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.LoadingCache;
+import es.moki.ratelimitj.api.LimitRule;
+import es.moki.ratelimitj.core.time.TimeSupplier;
+
+import javax.annotation.concurrent.ThreadSafe;
+import java.util.Map;
+import java.util.Set;
+import java.util.Timer;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 
-public class InmemorySlidingWindowRateLimiter implements RateLimiter {
+@ThreadSafe
+public class InmemorySlidingWindowRateLimiter extends AbstractSlidingWindowRateLimiter {
 
-    @Override
-    public boolean overLimit(String key) {
-        return false;
+    private final ConcurrentHashMap<String, Map<String, Long>> keys = new ConcurrentHashMap<>();
+    private final Timer timer = new Timer(true);
+
+
+    public InmemorySlidingWindowRateLimiter(Set<LimitRule> rules) {
+        super(rules);
+    }
+
+    public InmemorySlidingWindowRateLimiter(Set<LimitRule> rules, TimeSupplier timeSupplier) {
+        super(rules, timeSupplier);
     }
 
     @Override
-    public boolean overLimit(String key, int weight) {
-        return false;
+    protected Map<String, Long> getMap(String key, int longestDuration) {
+
+        LoadingCache<String, Map<String, Long>> keys = Caffeine.newBuilder()
+            .maximumSize(10_000)
+            .expireAfterAccess(5, TimeUnit.MINUTES)
+            .refreshAfterWrite(1, TimeUnit.MINUTES)
+            .build(k -> new ConcurrentHashMap<>());
+
+        keys.get(key);
+
+//        keys.
+
+        return keys.get(key);
+
+//        return keys.computeIfAbsent(key, s -> new ConcurrentHashMap<>());
+
     }
 }
